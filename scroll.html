@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+window.onload=function(){
+    var div3=document.getElementById("div3");
+    var div2=document.getElementById('div2');
+    var div4=document.getElementById('div4');
+
+    div3.onmousedown=function(e){
+      var  e=e||event;
+
+        var yy= e.clientY-div3.offsetTop
+
+
+        document.onmousemove=function(ev){
+         var   e=ev||event;
+         var  l = e.clientY-yy;
+            if(l<0){
+                l=0;
+            }else if(l>390){
+                l=390   ;
+            };
+            div3.style.top=l+'px';
+            div4.style.top=-l/390*(div4.offsetHeight-400)+'px';
+
+        }
+        document.onmouseup=function(){
+            document.onmousemove=null;
+        }
+        return false;
+    }
+}
+
+    </script>
+    <style type="text/css">
+        #div1{
+            width:100px;
+            height:400px;
+            border:solid black 1px;
+            float:left;
+            position: relative;
+        }
+    </style>
+</head>
+
+<div id="div1" >
+    <div id="div4" style="position: absolute;width:100px;overflow:hidden;">
+    # 在此处输入标题
+
+    标签（空格分隔）： 未分类
+
+    ---
+    ##javascript中event汇总
+    ie firefox chrome opera Safari浏览器中对 event的处理并不一致，在此我将各个浏览器中event的兼容处理做了一个汇总，此处引用的是javascript中的event兼容处理代码。
+    
+    var EventUtil = {//在这里我们用一个对象来将对event的各种兼容处理封装起来
+    //首先是对绑定事件的兼容
+    addHandler: function(element, type, handler){
+    if (element.addEventListener){
+    //DOM2级处理绑定事件方法
+    element.addEventListener(type, handler, false);
+    } else if (element.attachEvent){
+    //IE绑定方法
+    element.attachEvent("on" + type, handler);
+    } else {
+    //DOM0级处理方法（可选，仅支持DOM0级的浏览器似乎已经不存在了）
+    element["on" + type] = handler;
+    }
+    },
+    //鼠标按钮的兼容处理
+    getButton: function(event){
+    if (document.implementation.hasFeature("MouseEvents", "2.0")){//首先检查是否是DOM标准
+    return event.button;
+    } else {
+    //对IE向DOM兼容
+    switch(event.button){
+    case 0:
+    case 1:
+    case 3:
+    case 5:
+    case 7:
+    return 0;
+    case 2:
+    case 6:
+    return 2;
+    case 4: return 1;
+    }
+    }
+    },
+    //获取字符编码
+    getCharCode: function(event){
+    if (typeof event.charCode == "number"){
+    return event.charCode;
+    } else {//IE8之前和opera 需要使用keyCode获取字符编码
+    return event.keyCode;
+    }
+    },
+    //剪切板的访问
+    getClipboardText: function(event){
+    var clipboardData =  (event.clipboardData || window.clipboardData);
+    return clipboardData.getData("text");
+    },
+    //得到事件对象
+    getEvent: function(event){
+    return event ? event : window.event;
+    },
+    //得到相关元素
+    getRelatedTarget: function(event){
+    if (event.relatedTarget){
+    return event.relatedTarget;
+    } else if (event.toElement){
+    return event.toElement;
+    } else if (event.fromElement){
+    return event.fromElement;
+    } else {
+    return null;
+    }
+
+    },
+    //得到事件目标
+    getTarget: function(event){
+    return event.target || event.srcElement;
+    },
+    //对滑轮事件进行兼容
+    getWheelDelta: function(event){
+    if (event.wheelDelta){
+    return (client.engine.opera && client.engine.opera < 9.5 ? -event.wheelDelta : event.wheelDelta);
+    } else {
+    return -event.detail * 40;
+    }
+    },
+    //阻止默认事件
+    preventDefault: function(event){
+    if (event.preventDefault){
+    event.preventDefault();
+    } else {
+    event.returnValue = false;
+    }
+    },
+    //移除事件
+    removeHandler: function(element, type, handler){
+    if (element.removeEventListener){
+    element.removeEventListener(type, handler, false);
+    } else if (element.detachEvent){
+    element.detachEvent("on" + type, handler);
+    } else {
+    element["on" + type] = null;
+    }
+    },
+    //设置剪切板内容
+    setClipboardText: function(event, value){
+    if (event.clipboardData){
+    event.clipboardData.setData("text/plain", value);
+    } else if (window.clipboardData){
+    window.clipboardData.setData("text", value);
+    }
+    },
+    //阻止事件冒泡
+    stopPropagation: function(event){
+    if (event.stopPropagation){
+    event.stopPropagation();
+    } else {
+    event.cancelBubble = true;
+    }
+    }
+
+    };
+   
+    此处添加的事件尚不完全，有待扩充。
+    </div>
+</div>
+<div id="div2" style="height:400px;width:10px;border:1px solid black;float:left;position:relative;"><div id="div3" style="height:10px;width:10px;background:red;position:absolute;top:0px;"></div></div>
+<body>
+
+</div>
