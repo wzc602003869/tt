@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style type="text/css">
+        #test{
+            width:100px;
+            height:100px;
+            background: red;
+            position:absolute;
+            right:0px;
+            top:50%;
+        }
+    </style>
+    <title>JSONP Example</title>
+    <script type="text/javascript">
+        window.onload=function(){
+            var i=1;
+            var div1=document.getElementById("test");
+            window.onresize=window.onscroll=function(){
+                var aaa=document.documentElement.scrollTop||document.body.scrollTop;
+                var t=(document.documentElement.clientHeight-div1.offsetHeight)/2;
+                //div1.style.top=aaa  +t+ 'px';
+                move(div1,{attr:"top",dis:aaa  +t})
+                function getstyle(obj,attr){
+                    if (obj.currentStyle){
+                        return obj.currentStyle[attr];
+                    }else{
+                        return getComputedStyle(obj,null)[attr];
+                    }
+                }
+                function move(obj,json){
+                        clearInterval(obj.time);
+                   obj.time= setInterval(function(){
+                        var pos=parseInt(getstyle(obj,json.attr));
+
+                        var dis=json.dis-pos;
+                        obj.style[json.attr]=pos+dis/8+'px';
+                       i++;
+                        if(pos==json.dis){
+                            i=1;
+                            clearInterval(obj.time);
+
+                        }
+                    },30)
+
+                }
+            }
+        }
+    </script>
+</head>
+<body  style="height:2000px;">
+<div id="test"></div>
+</body>
+</html>

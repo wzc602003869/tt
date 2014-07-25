@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <style type="text/css">
+        div{
+            width:200px;
+            height:200px;
+
+            float:left;
+            margin: 50px;
+        }
+        img{
+            position:relative;
+            left:0px;
+        }
+
+    </style>
+    <script type="text/javascript" >
+    /**
+ * Created by lenovo on 14-6-17.
+ */
+window.onload=function(){
+    var imgs=document.getElementsByTagName("img");
+    var l=imgs.length;
+    for(var i=0;i<l;i++){
+       var width=window.getComputedStyle? window.getComputedStyle(imgs[i].parentNode , null)['width']:imgs[i].parentNode.currentStyle['width'];
+       var height=window.getComputedStyle? window.getComputedStyle(imgs[i].parentNode , null)['height']:imgs[i].parentNode.currentStyle['height'];
+       imgs[i].style.width=width;
+       imgs[i].style.height=height;
+        imgs[i].style.left="0px";
+        imgs[i].style.top="0px";
+       imgs[i].onmouseover=function(){
+           this.style.zIndex=10;
+            test.call(this);
+           this.onmouseout=function(){
+               clearTimeout(settime);
+               this.style.zIndex=0;
+               this.style.height=width;
+               this.style.width=height;
+               this.style.left="0px";
+               this.style.top="0px";
+               this.onmouseout=null;
+           }
+       };
+    }
+}
+var settime
+function test(){
+    var this1=this;
+    if(parseInt(this1.style.width)==300){
+        return;
+    };
+   this1.style.width=5+parseInt(this1.style.width)+"px";
+    this1.style.height=5+parseInt(this1.style.height)+"px";
+    this1.style.left=-2.5+parseInt(this1.style.left)+"px";
+    this1.style.top=-2.5+parseInt(this1.style.top)+"px";
+   settime= setTimeout(function(){test.call(this1)},5)
+}
+</script>
+</head>
+<body>
+<div><img src="http://pic1.win4000.com/wallpaper/d/4fceae14904d7.jpg" alt=""/></div>
+<div><img src="http://pic1.win4000.com/wallpaper/4/4fceae15aa560.jpg" alt=""/></div>
+<div><img src="http://pic1.win4000.com/wallpaper/c/4fceae1e53532.jpg" alt=""/></div>
+<div><img src="http://pic1.win4000.com/wallpaper/d/4fceae14904d7.jpg" alt=""/></div>
+<div style="margin:0px"><img src="http://pic1.win4000.com/wallpaper/4/4fceae15aa560.jpg" alt=""/></div>
+<div style="margin:0px"><img src="http://pic1.win4000.com/wallpaper/4/4fceae15aa560.jpg" alt=""/></div>
+<div style="margin:0px"><img src="http://pic1.win4000.com/wallpaper/4/4fceae15aa560.jpg" alt=""/></div>
+<div style="margin:0px"><img src="http://pic1.win4000.com/wallpaper/4/4fceae15aa560.jpg" alt=""/></div>
+<div style="margin:0px"><img src="http://pic1.win4000.com/wallpaper/4/4fceae15aa560.jpg" alt=""/></div>
+<div style="margin:0px"><img src="http://pic1.win4000.com/wallpaper/4/4fceae15aa560.jpg" alt=""/></div>
+
+</body>
+</html>
